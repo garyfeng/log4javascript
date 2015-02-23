@@ -1848,18 +1848,14 @@
 		var appender = this;
 		var strVar ="";
 		var isSupported = true;
-		if (!strVar) {
-			handleError("StringAppender: strVar must be specified in constructor");
-			isSupported = false;
-		}
+		// if (!strVar) {
+		// handleError("StringAppender: strVar must be specified in constructor");
+		// isSupported = false;
+		// }
 
 		function init() {
 			initialized = true;
 			strVar="";
-		}
-
-		function getLog() {
-			return this.strVar;
 		}
 
 	}
@@ -1868,19 +1864,36 @@
 	StringAppender.prototype = new Appender();
 
 	StringAppender.prototype.defaults = {
-			layout: new PatternLayout("%r %-5p - %m{1}%n")
+		layout: new PatternLayout("%r %-5p - %m{1}%n")
 	}
-	
+
 	//StringAppender.prototype.layout = new SimpleLayout();
 	StringAppender.prototype.layout = new PatternLayout("%d{HH:mm:ss,SSS} %-5p - %m{1}%n");
 
 	StringAppender.prototype.append = function(loggingEvent) {
-		strVar+=this.getLayout().formatWithException(loggingEvent);
+		this.strVar+=this.getLayout().formatWithException(loggingEvent);
 	};
 
 	StringAppender.prototype.toString = function() {
 		return "StringAppender";
 	};
+
+	StringAppender.prototype.getLog = function() {
+		return this.strVar;
+	}
+
+	// StringAppender.prototype.saveLogAs = function(fileName) {
+
+	// 	var BB = get_blob();
+	// 	saveAs(
+	// 		  new BB(
+	// 			  [text.value || text.placeholder]
+	// 			, {type: "text/plain;charset=" + document.characterSet}
+	// 		)
+	// 		, (text_filename.value || text_filename.placeholder) + ".txt"
+	// 	);		
+			
+	// }
 
 	log4javascript.StringAppender = StringAppender;
 
