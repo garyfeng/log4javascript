@@ -1855,7 +1855,7 @@
 
 		function init() {
 			initialized = true;
-			strVar="";
+			this.strVar="";
 		}
 
 	}
@@ -1868,9 +1868,13 @@
 	}
 
 	//StringAppender.prototype.layout = new SimpleLayout();
-	StringAppender.prototype.layout = new PatternLayout("%d{HH:mm:ss,SSS} %-5p - %m{1}%n");
+	//StringAppender.prototype.layout = new PatternLayout("%d{HH:mm:ss,SSS} %-5p - %m{1}%n");
+	StringAppender.prototype.layout = new PatternLayout("%r %-5p - %m{1}%n");
 
 	StringAppender.prototype.append = function(loggingEvent) {
+		if (!this.strVar) {
+			this.strVar="";
+		}
 		this.strVar+=this.getLayout().formatWithException(loggingEvent);
 	};
 
@@ -1879,7 +1883,7 @@
 	};
 
 	StringAppender.prototype.getLog = function() {
-		return this.strVar;
+		return this.strVar? this.strVar:"";
 	}
 
 	// StringAppender.prototype.saveLogAs = function(fileName) {
